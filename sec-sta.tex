@@ -1,0 +1,38 @@
+\section{Estado del Arte}\label{chap:eoa}
+
+\subsection*{Quickcheck}
+\textbf{Quickcheck}~\cite{Claessen:2011:QLT:1988042.1988046} es una herramienta para
+testear propiedades generales de programas.
+Inicialmente creado para el lenguaje de programación Haskell, pero hoy en día
+ha sido portada a la mayoría de los lenguajes populares.
+Los usuarios de Quickcheck describen propiedades de sus programas usando
+un DSL\footnote{Domain Specific Language}. Quickcheck luego prueba que esas
+propiedades se mantienen ciertas generando una gran cantidad de entradas
+aleatorias para el programa en cuestión.
+Para casos más complejos, los usuarios tienen la opción de crear generadores de
+datos más específicos.
+
+Para el desarrollo de este trabajo se extenderá JUnit-Quickcheck, una
+implementación de Quickcheck de código abierto para Java basado en el
+framework de testing JUnit.
+
+\subsection*{DiSL}
+\textbf{DiSL}~\cite{Marek:2012:DDL:2162049.2162077} es una herramienta y DSL de
+instrumentación\footnote{Instrumentación de software significa la habilidad de monitorear o medir la
+ejecución de un programa mientras este corre.} para la máquina virtual de Java.
+DiSL funciona inyectando código en el bytecode de los programas de Java para obtener análisis
+más profundos sobre la ejecución de los programas como perfilar (profiling),
+depuración e ingeniería inversa, esto sin modificar el resultado final de la
+ejecución que se está analizando.
+
+Para el desarrollo de este trabajo, nos interesa usar DiSL para especificar los
+tipos de recursos que un usuario quiera modelar. Un ejemplo es tiempo de
+ejecución, cantidad de mensajes que un objeto envía o la cantidad de accesos a
+memoria secundaria, entre otros.
+El código fuente es abierto y está disponible por lo que la herramienta se
+puede extender de ser necesario.
+
+DiSL es superior a otras librerías de perfilamiento porque permite instrumentar
+cualquier punto del bytecode, y el código generado es eficiente y no hace
+operaciones costosas o que puedan modificar el funcionamiento de los
+métodos~\cite{10.1007/978-3-642-35182-2_18}.

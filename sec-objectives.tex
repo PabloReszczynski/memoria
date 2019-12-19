@@ -1,0 +1,112 @@
+\section{Objetivos}\label{chap:obj}
+
+\subsection*{Objetivo General}\label{sec:obj-g}
+El objetivo de esta memoria es extender JUnit-Quickcheck para especificar
+propiedades de eficiencia. El usuario debería poder especificar el tipo de
+recurso a medir y Quickcheck deberá generar entradas aleatorias crecientes y
+los espías necesarios para medir los recursos y ejecutar el programa con ellos
+para que finalmente se valide si la propiedad se cumple con las medidas tomadas
+en cada ejecución.
+
+\subsubsection*{Ejemplo de uso}
+Un ejemplo de uso de esta herramienta puede ser el siguiente, supongamos que un
+usuario quiere testear su implementación de Mergesort. Sabemos que en el peor
+caso, Mergesort hace $\mathcal{O}(n\log{n})$ comparaciones donde $n$ es el número
+de objetos a ordenar.
+Por lo tanto al describir la propiedad con el decorador de Quickcheck
+\texttt{@Property}, el usuario utiliza las clases de utilidad
+\texttt{ComparableMarker} y \texttt{DislProfiler} para instrumentar la ejecución
+del test y contar el número de comparaciones que se efectúan.
+
+La siguiente clase es un ejemplo de una definición de utilidad para contar el
+número de comparaciones cada vez que se ejecuta el método \textit{compare} en una
+ejecución.
+
+\begin{verbatim}
+
+static class ComparisonsProfiler extends DislProfiler {
+  @SyntheticLocal
+  private long comparisonCount;
+
+  @After(marker=ComparableMarker.class)
+  static void onCompare() {
+    comparisonCount += 1;
+  }
+
+  public ComparisonsProfiler() {
+    comparisonCount = 0;
+  }
+
+  public long getComparisonCount() {
+    return comparisonCount;
+  }
+}
+\end{verbatim}
+
+El siguiente es un ejemplo del test, definido de la misma forma que los tests
+de JUnit-Quickcheck pero usando las nuevas utilidades.
+La clase \textit{Profiling} se encarga de inyectar en el bytecode los espías
+necesarios creados por la clase \texttt{ComparableMarker}.
+
+\begin{verbatim}
+
+@RunWith(JUnitQuickcheck.class)
+public static class MergeSortComparisons<T extends Comparable> {
+
+  static ComparisonProfiler profiler;
+
+  @Before
+  public void initProfiler() {
+    profiler = new ComparisonProfiler();
+  }
+
+  @Property
+  public void maxComparisons(List<T> objects) {
+    Profiling.inject(profiler);
+    int n = objects.length();
+    mergeSort(objects);
+    assertThat(
+      profiler.comparisonCount,
+      is(lessOrEqual(n * Math.log(n)))
+    );
+  }
+}
+\end{verbatim}
+\newpage
+
+\linespread{1.5}
+\subsection*{Objetivos Específicos}\label{sec:obj-e}
+\begin{itemize}
+\item Crear una interfaz para ejecutar las funciones de DiSL desde Quickcheck.
+\item Crear clases de utilidad para medir:
+\subitem Tiempo de ejecución.
+\subitem Número de comparaciones.
+\subitem Métodos llamados.
+\subitem Memoria usada.
+\item Transparentar el backend para que el usuario pueda definir sus propias
+  clases de utilidad.
+\item Extender Quickcheck para hacer uso de las clases de utilidad.
+\item Realizar un estudio sobre benchmark para validar que la medición de
+  métricas es correcta.
+\item Publicar el código fuente en un repositorio público.
+\item Publicar la librería en un repositorio de paquetes público.
+\item Crear README y documentación.
+\end{itemize}
+
+\subsection*{Objetivos Específicos}\label{sec:obj-e}
+\begin{itemize}
+\item Crear una interfaz para ejecutar las funciones de DiSL desde Quickcheck.
+\item Crear clases de utilidad para medir:
+\subitem Tiempo de ejecución.
+\subitem Número de comparaciones.
+\subitem Métodos llamados.
+\subitem Memoria usada.
+\item Transparentar el backend para que el usuario pueda definir sus propias
+  clases de utilidad.
+\item Extender Quickcheck para hacer uso de las clases de utilidad.
+\item Realizar un estudio sobre benchmark para validar que la medición de
+  métricas es correcta.
+\item Publicar el código fuente en un repositorio público.
+\item Publicar la librería en un repositorio de paquetes público.
+\item Crear README y documentación.
+\end{itemize}

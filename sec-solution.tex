@@ -1,0 +1,27 @@
+\section{Solución Propuesta}\label{chap:sol}
+% Que quieres lograr? %
+Lo que se quiere lograr es tener una librería para Java para realizar tests de
+aleatorios para demostrar propiedades de eficiencia en programas.
+Actualmente existen las herramientas para crear tal librería -DiSL y Quickcheck
+en este caso- pero es un trabajo que aún no se ha hecho y que tampoco es trivial.
+Esto es porque es necesario abstraer la funcionalidad de DiSL para poder ser
+usada por Quickcheck.
+
+Con la librería el usuario podrá especificar un test de eficiencia con una
+métrica y una heurística de cuán eficiente tiene que ser su programa. Quickcheck
+correrá el test con cientos de inputs generados aleatoriamente y en cada
+ejecución revisará con DiSL que la propiedad general del test se mantiene.
+Si en alguna ejecución la propiedad no se cumple, el test fallará. En caso
+contrario el test pasará.
+
+La entrega final del trabajo consistirá en una librería documentada para Java
+que permita a los usuarios testear propiedades de eficiencia de sus programas
+usando distintas métricas y con entradas generadas de forma aleatoria.
+La librería vendrá con métricas por defecto como tiempo de ejecución y conteo
+de comparaciones, además de funcionalidad para que los usuarios creen sus
+propias métricas.
+
+La librería estará disponible en un repositorio de paquetes de Maven para
+poder ser integrado de manera sencilla por los usuarios en sus proyectos de
+Java.
+
