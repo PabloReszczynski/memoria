@@ -29,8 +29,8 @@ view: $(NAME).pdf
 	xpdf $<
 
 clean:
-	rm -f *.aux *.log *~ *.pdf *.pdf_t *.bbl *.blg
+	rm -f *.aux *.log *~ propuesta.pdf *.pdf_t *.bbl *.blg
 
 spotless: clean
-	rm -f *.ps *.dvi *.pdf *.pdf_t *.toc *.idf *.ilg *.ind *.fig.bak
+	rm -f *.ps *.dvi propuesta.pdf *.pdf_t *.toc *.idf *.ilg *.ind *.fig.bak
 	rm -f *.out *.cb *.cb2

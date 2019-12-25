@@ -18,3 +18,7 @@
 *.snm
 *.nav
 .DS_Store
+*.fdb_latexmk
+*.fls
+*.orig.*
+*.vtc
